@@ -1,0 +1,88 @@
+<robot name="custom_mobile_robot">
+  <!-- Base Link (Chassis) -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.4 0.3 0.1"/>
+      </geometry>
+      <material name="blue"><color rgba="0 0 1 1"/></material>
+    </visual>
+  </link>
+
+  <!-- Left Rear Wheel -->
+  <link name="left_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.1"/>
+      </geometry>
+      <material name="black"><color rgba="0 0 0 1"/></material>
+    </visual>
+  </link>
+
+  <!-- Right Rear Wheel -->
+  <link name="right_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.1"/>
+      </geometry>
+      <material name="black"><color rgba="0 0 0 1"/></material>
+    </visual>
+  </link>
+
+  <!-- Front Omnidirectional Wheel (smaller, fits under chassis) -->
+  <link name="front_omni_wheel">
+    <visual>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+      <material name="grey"><color rgba="0.5 0.5 0.5 1"/></material>
+    </visual>
+  </link>
+
+  <!-- LiDAR Sensor (Cylinder) -->
+  <link name="lidar_sensor">
+    <visual>
+      <geometry>
+        <cylinder length="0.04" radius="0.05"/>
+      </geometry>
+      <material name="red"><color rgba="1 0 0 1"/></material>
+    </visual>
+  </link>
+
+  <!-- JOINTS -->
+
+  <!-- Left Wheel Joint -->
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel"/>
+    <origin xyz="-0.1 0.175 0" rpy="1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- Right Wheel Joint -->
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel"/>
+    <origin xyz="-0.1 -0.175 0" rpy="1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- Front Omni Wheel Joint -->
+  <!-- Rear wheel: radius=0.1, center z=0  → bottom at z=-0.1        -->
+  <!-- Front wheel: radius=0.05, so center must be at z=-0.05         -->
+  <!-- to reach the same ground level z=-0.1  (-0.05 - 0.05 = -0.1)  -->
+  <joint name="front_omni_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_omni_wheel"/>
+    <origin xyz="0.15 0 -0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- LiDAR Joint -->
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_sensor"/>
+    <origin xyz="0.15 0 0.075" rpy="0 0 0"/>
+  </joint>
+
+</robot>
